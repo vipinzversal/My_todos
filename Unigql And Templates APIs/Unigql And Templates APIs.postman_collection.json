@@ -1,0 +1,1240 @@
+{
+	"info": {
+		"_postman_id": "14ba0c88-b9f2-4f3f-99b6-00974b52e82c",
+		"name": "Unigql And Templates APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\", res.session_id);\r",
+							"pm.collectionVariables.set(\"user_id\", res.user_id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "username",
+						"value": "manish.kumar@zversal.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "manish@123",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "manish@prod",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{login-domain}}/lookup/auth/login",
+					"host": [
+						"{{login-domain}}"
+					],
+					"path": [
+						"lookup",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Jobs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{GQL-domain}}/jobs",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"jobs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download Job File",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"job_id\": \"1641464954159\",\r\n    \"file_name\" : \"response.csv\"\r\n}"
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/download",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"download"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom Price",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData (\r\n    identifiers: [\r\n        \"53656F656\",\"38150K103\",\"90470L568\",\"00162Q460\"\r\n        ], \r\n  betweenDates: {\r\n   startDate:\"2020-09-24\",\r\n    endDate:\"2021-09-25\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n  ) {\r\n   priceData {\r\n    requestedIdentifier\r\n    identifierType\r\n    MIC\r\n    LocalCode\r\n    ISIN\r\n    Currency\r\n    PriceDate\r\n    Open\r\n    High\r\n    Low\r\n    Close\r\n    Mid\r\n    Ask\r\n    Last\r\n    Bid\r\n    Bidsize\r\n    Asksize\r\n    TradedVolume\r\n    SecID\r\n    MktCloseDate\r\n    VolFlag\r\n    IssuerName\r\n    SectyCD\r\n    SecurityTypeDescription\r\n    SEDOL\r\n    CUSIP\r\n    PrimaryExchgCD\r\n    ExchgCD\r\n    TradedValue\r\n    TotalTrades\r\n    CloseType\r\n    YieldOfMaturity\r\n    Type\r\n    ProductType\r\n    TypeCode\r\n    BondMnemonic\r\n    CouponRate\r\n    BondType\r\n    CloseDate\r\n    Broker\r\n    Note\r\n    AssetClass\r\n  }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom dividends",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n ) {\r\n    dividends {\r\n        requestedIdentifier\r\n        CUSIP\r\n        Ticker\r\n        ExchangeCode\r\n        AnnouncementDate\r\n        DeclaredDate\r\n        RecordDate\r\n        ExDate\r\n        PayDate\r\n        DividendAmount\r\n        DividendType\r\n        EventDescription\r\n        PayTypeList\r\n        FootnoteList\r\n        FootnoteDescription\r\n        SplitLiteral\r\n        SplitType\r\n        IssueType\r\n        Literals\r\n        LiteralsDescription\r\n        RevisionCodeAll\r\n        RevisionCodeAllDescription\r\n        DividendCurrency\r\n        ParValue\r\n        ParCurrency\r\n        DPFCRate\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom equityDescriptions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ]\r\n ) {\r\n  \r\n  equityDescriptions {\r\n    requestedIdentifier\r\n    ISIN\r\n    CUSIP\r\n    IssuerName\r\n    CntryofIncorp\r\n    SIC\r\n    SectyCD\r\n    SecurityDesc\r\n    LatestParValue\r\n    PVCurrency\r\n    StatusFlag\r\n    PrimaryExchgCD\r\n    SEDOL\r\n    SedolCurrency\r\n    Defunct\r\n    SedolRegCntry\r\n    StructCD\r\n    ExchgCntry\r\n    ExchgCD\r\n    MIC\r\n    Micseg\r\n    LocalCode\r\n    ListStatus\r\n    SharesOutstanding\r\n    LatestEffectiveDate\r\n    DividendRate\r\n    ExDate\r\n    RecordDate\r\n    DeclareDate\r\n    PayDate\r\n    IndicatedAnnualDividend\r\n    DividendType\r\n    DividendFrequency\r\n    EarningsPerShare\r\n    Section13fSecurity\r\n    OptionsIndicator\r\n    EquityCUSIPRelatedtoOption\r\n    Action\r\n    RunDate\r\n    QtrandYearofRun\r\n  }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom CorporateAction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n  \r\n ) {\r\n  corporateActions {\r\n    requestedIdentifier\r\n    CUSIP\r\n    ExchangeCode\r\n    CorporateActionTitle\r\n    Description\r\n    Issuer\r\n    IssueType\r\n    AnnouncementDate\r\n    EffectiveDate\r\n    Details\r\n    AdditionalDetails\r\n    Ticker\r\n    Status\r\n    NextTicker\r\n    NextExchange\r\n    NewCUSIP\r\n    NewIssuer\r\n    RevisionCodeAll\r\n    RevisionCodeAllDescription\r\n    LifeStage\r\n    TransactionType\r\n    SharesReceived\r\n    SharesReceivedType\r\n    SharesHeld\r\n    SharesHeldType\r\n    Cash\r\n    CashCurrency\r\n    ParValue\r\n    ParCurrency\r\n    DPFCRate\r\n    Literal\r\n  }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom debtDescriptions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( \r\n    identifiers: [ \r\n      \"XS2004372095\", \r\n      \"XS1679333432\", \r\n      \"XS0333340361\", \r\n      \"XS0333337813\",\r\n      \"USU52505AD33\", \r\n      \"USU52505AC59\"\r\n    ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n ) {\r\n  debtDesciptions {\r\n    requestedIdentifier\r\n    FISN\r\n    CFICode\r\n    IssueDescription\r\n    CUSIP\r\n    ISIN\r\n    SEDOL\r\n    IssuerName\r\n    IssueName\r\n    CurrentCoupon\r\n    MaturityDate\r\n    IssueDate\r\n    DepositoryType\r\n    IssueCurrency\r\n    IssueYield\r\n    TIPs\r\n    PriceAtIssue\r\n    IssueType\r\n    FirstCouponDate\r\n    PenultimateCouponDate\r\n    InterestAccrualDate\r\n    TaxCall\r\n    Classification\r\n    ClassificationSubType\r\n    IssueSubType\r\n    Tier\r\n    CollateralType\r\n    PaymentCategory\r\n    PaymentCategorySubType\r\n    CouponDeviationType\r\n    IncomeCalculationType\r\n    PrivatePlacement\r\n    BloombergUniqueId\r\n    AmortizationFrequency\r\n    CouponFrequency\r\n    DiscountedInstrument\r\n    SettleDays\r\n    PoolFactor\r\n    FixedRate\r\n    CouponVariableRate\r\n    CallDate\r\n    CallPrice\r\n    RatingProvider\r\n    RatingEffectiveDate\r\n    Rating\r\n    RatingType\r\n    CountryOfIncorporation\r\n    StateCode\r\n    TaxStatus\r\n    StateTaxApplicable\r\n    BankQualified\r\n    SecurityCode\r\n    CurrentDayCountConvention\r\n    LastCouponDate\r\n    SourceOfRepayment\r\n    PreRefunded\r\n    DealName\r\n    StatedFinalMaturityDate\r\n    FirstPayDate\r\n    PaymentDelay\r\n    TrancheCoupon\r\n    OneMonthCoupon\r\n    SettleDate\r\n    Factor\r\n    PaymentDate\r\n    IssueCountry\r\n    DealType\r\n    CouponType\r\n    CouponRate\r\n    startDate\r\n    PaymentDelayDays\r\n    PoolNumber\r\n    } \r\n   }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom Securitized - Factors",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData(\r\n    identifiers: [\"03027WAJ1\", \"E6282QAC7\", \"AU0000AORHA1\", \"ES0314148042\", \"IT0004222532\"],\r\n    betweenDates: {\r\n      startDate: \"2021-03-15\",\r\n      endDate:\"2021-07-15\",\r\n    }\r\n      #onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n  ) {\r\n    trancheHistory {\r\n      requestedIdentifier\r\n      CUSIP\r\n      ISIN\r\n      SettleDate\r\n      TrancheCoupon\r\n      OneMonthCoupon\r\n      Factor\r\n      PaymentDate\r\n      PaymentDelay\t\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined Price Equities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData (\r\n    identifiers: [\r\n        \"53656F656\",\"38150K103\",\"90470L568\",\"00162Q460\"\r\n        ], \r\n  betweenDates: {\r\n   startDate:\"2020-09-24\",\r\n    endDate:\"2021-09-25\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n  ) {\r\n   priceData {\r\n    requestedIdentifier\r\n    identifierType\r\n    MIC\r\n    LocalCode\r\n    ISIN\r\n    Currency\r\n    PriceDate\r\n    Open\r\n    High\r\n    Low\r\n    Close\r\n    Mid\r\n    Ask\r\n    Last\r\n    Bid\r\n    Bidsize\r\n    Asksize\r\n    TradedVolume\r\n    SecID\r\n    MktCloseDate\r\n    VolFlag\r\n    IssuerName\r\n    SectyCD\r\n    SecurityTypeDescription\r\n    SEDOL\r\n    CUSIP\r\n    PrimaryExchgCD\r\n    ExchgCD\r\n    TotalTrades\r\n    CloseType\r\n  }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined  Dividends US",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n\r\n ) {\r\n    dividends {\r\n        requestedIdentifier\r\n        CUSIP\r\n        Ticker\r\n        ExchangeCode\r\n        AnnouncementDate\r\n        DeclaredDate\r\n        RecordDate\r\n        ExDate\r\n        PayDate\r\n        DividendAmount\r\n        DividendType\r\n        EventDescription\r\n        PayTypeList\r\n        FootnoteList\r\n        FootnoteDescription\r\n        SplitLiteral\r\n        SplitType\r\n        IssueType\r\n        Literals\r\n        LiteralsDescription\r\n        RevisionCodeAll\r\n        RevisionCodeAllDescription\r\n        DividendCurrency\r\n        ParValue\r\n        ParCurrency\r\n        DPFCRate\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined equityDescriptions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ],\r\n\r\n ) {\r\n  \r\n  equityDescriptions {\r\n    requestedIdentifier\r\n    ISIN\r\n    CUSIP\r\n    IssuerName\r\n    CntryofIncorp\r\n    SIC\r\n    SectyCD\r\n    SecurityDesc\r\n    LatestParValue\r\n    PVCurrency\r\n    StatusFlag\r\n    PrimaryExchgCD\r\n    SEDOL\r\n    SedolCurrency\r\n    Defunct\r\n    SedolRegCntry\r\n    StructCD\r\n    ExchgCntry\r\n    ExchgCD\r\n    MIC\r\n    Micseg\r\n    LocalCode\r\n    ListStatus\r\n    SharesOutstanding\r\n    LatestEffectiveDate\r\n  }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined CorporateAction US",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n ) {\r\n  corporateActions {\r\n    requestedIdentifier\r\n    CUSIP\r\n    ExchangeCode\r\n    CorporateActionTitle\r\n    Description\r\n    Issuer\r\n    IssueType\r\n    AnnouncementDate\r\n    EffectiveDate\r\n    Details\r\n    AdditionalDetails\r\n    Ticker\r\n    Status\r\n    NextTicker\r\n    NextExchange\r\n    NewCUSIP\r\n    NewIssuer\r\n    RevisionCodeAll\r\n    RevisionCodeAllDescription\r\n    LifeStage\r\n    TransactionType\r\n    SharesReceived\r\n    SharesReceivedType\r\n    SharesHeld\r\n    SharesHeldType\r\n    Cash\r\n    CashCurrency\r\n    ParValue\r\n    ParCurrency\r\n    DPFCRate\r\n  }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined fixed Income: Municipal",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( \r\n    identifiers: [ \r\n      \"US98981RAS67\", \r\n      \"US98981RAN70\", \r\n      \"US98981RAJ68\", \r\n      \"US989790UC26\", \r\n      \"US989790UB43\", \r\n      \"US989790TY64\", \r\n      \"US989790TW09\", \r\n      \"US989790TV26\", \r\n      \"US989790TT79\", \r\n      \"US989790TR14\"\r\n    ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n\r\n ) {\r\n  debtDesciptions {\r\n    requestedIdentifier\r\n    FISN\r\n    CFICode\r\n\tIssueDescription\r\n    CUSIP\r\n    ISIN\r\n    SEDOL\r\n    IssueName\r\n    CurrentCoupon\r\n    MaturityDate\r\n    IssueDate\r\n    DepositoryType\r\n    IssueCurrency\r\n    IssueYield\r\n\tPriceAtIssue\r\n    IssueType    \r\n  \tFirstCouponDate\r\n    PenultimateCouponDate\r\n    InterestAccrualDate\r\n    StateCode\r\n  \tTaxStatus\r\n    StateTaxApplicable\r\n    BankQualified \r\n    Classification\r\n    ClassificationSubType\r\n    IssueSubType\r\n    SecurityCode\r\n    PaymentCategory\r\n    PaymentCategorySubType\r\n    IncomeCalculationType\r\n    CurrentDayCountConvention\r\n    PrivatePlacement\r\n    BloombergUniqueId\r\n    CouponFrequency\r\n    DiscountedInstrument\r\n\tLastCouponDate\r\n    SourceOfRepayment\r\n    SettleDays\r\n    FixedRate\r\n    PreRefunded\r\n    CouponVariableRate\r\n    CallDate\r\n    CallPrice\r\n    RatingProvider\r\n    RatingEffectiveDate\r\n    Rating\r\n    RatingType\r\n    IssuerName\r\n    CountryOfIncorporation\r\n  }, \r\n  priceData {\r\n      requestedIdentifier\r\n      ISIN\r\n      SEDOL\r\n      CUSIP\r\n      PriceDate\r\n      CloseDate\r\n      Mid\r\n      Ask\r\n      Bid\r\n      YieldOfMaturity\r\n      TypeCode\r\n      ProductType\r\n      CouponRate\r\n      BondType\r\n    }\r\n   }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined fixed Income: GSAC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( \r\n    identifiers: [ \r\n     \"S69124WH4\", \r\n\"S69124WF8\", \r\n\"S293BGNA7\", \r\n\"S21796AT4\", \r\n\"S69124TY1\", \r\n\"S69124UU7\", \r\n\"S69124UK9\", \r\n\"S69124TW5\", \r\n\"S69124VF9\"\r\n    ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n\r\n ) {\r\n debtDesciptions {\r\n    requestedIdentifier\r\n  \tFISN\r\n  \tCFICode\r\n  \tIssueDescription\r\n    CUSIP\r\n    ISIN\r\n    SEDOL\r\n  \tIssuerName\r\n  \tIssueName\r\n    CurrentCoupon\r\n    MaturityDate\r\n    IssueDate\r\n    DepositoryType\r\n    IssueCurrency\r\n    IssueYield\r\n    TIPs\r\n    PriceAtIssue\r\n    IssueType\r\n    FirstCouponDate\r\n    PenultimateCouponDate\r\n    InterestAccrualDate\r\n    TaxCall\r\n    Classification\r\n    ClassificationSubType\r\n    IssueSubType\r\n    Tier\r\n    CollateralType\r\n    PaymentCategory\r\n    PaymentCategorySubType\r\n    CouponDeviationType\r\n    IncomeCalculationType\r\n    PrivatePlacement\r\n    BloombergUniqueId\r\n    AmortizationFrequency\r\n    CouponFrequency\r\n    DiscountedInstrument\r\n    SettleDays\r\n    PoolFactor\r\n    FixedRate\r\n    CouponVariableRate\r\n    CallDate\r\n    CallPrice\r\n    RatingProvider\r\n    RatingEffectiveDate\r\n    Rating\r\n    RatingType\r\n    CountryOfIncorporation\r\n  }, \r\n  priceData {\r\n      requestedIdentifier\r\n      ISIN\r\n      SEDOL\r\n      CUSIP\r\n      PriceDate\r\n      CloseDate\r\n      Mid\r\n      Ask\r\n      Bid\r\n      YieldOfMaturity\r\n      TypeCode\r\n      ProductType\r\n      CouponRate\r\n    }\r\n   }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined fixed Income: Securitized",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( \r\n    identifiers: [ \r\n      \"XS2004372095\", \r\n      \"XS1679333432\", \r\n      \"XS0333340361\", \r\n      \"XS0333337813\",\r\n      \"USU52505AD33\", \r\n      \"USU52505AC59\"\r\n    ], \r\n  betweenDates: {\r\n    startDate:\"2021-06-05\",\r\n    endDate:\"2021-06-11\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n\r\n ) {\r\n  debtDesciptions {\r\n    requestedIdentifier\r\n    CUSIP\r\n    ISIN\r\n    SEDOL\r\n    DealName\r\n    StatedFinalMaturityDate\r\n    FirstPayDate\r\n    PaymentDelay\r\n    RatingProvider\r\n    RatingEffectiveDate\r\n    Rating\r\n    RatingType\r\n    TrancheCoupon\r\n    OneMonthCoupon\r\n    SettleDate\r\n    Factor\r\n    PaymentDate\r\n    IssueDate\r\n    IssueCountry\r\n    DealType\r\n    CouponFrequency   \r\n  }, \r\n  priceData {\r\n      requestedIdentifier\r\n      ISIN\r\n      SEDOL\r\n      CUSIP\r\n      Currency\r\n      PriceDate\r\n      Mid\r\n      Ask\r\n      Bid\r\n      YieldOfMaturity\r\n      Type\r\n      TypeCode\r\n      ProductType\r\n      BondMnemonic\r\n    }\r\n   }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined International Corp Action",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData(\r\n    identifiers: [\"Y27183121\", \"G51502105\", \"G37585109\", \"686330101\"]\r\n    betweenDates: { startDate: \"2021-01-01\", endDate: \"2021-06-16\" }\r\n\r\n  ) {\r\n    corporateActions {\r\n      requestedIdentifier\r\n      AnnouncementDate\r\n      CUSIP\r\n      Ticker\r\n      ExchangeCode\r\n      Description\r\n      EffectiveDate\r\n      NewCUSIP\r\n      NextTicker\r\n      NextExchange\r\n      Details\r\n      Literal\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined MultiAsset Price",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData (\r\n    identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\" ], \r\n  betweenDates: {\r\n    startDate:\"2021-12-01\",\r\n    endDate:\"2021-12-31\"\r\n  },\r\n  # onDates: [\"2021-05-14\"],\r\n  # latestBy:\"2\"\r\n\r\n  ) {\r\n   priceData {\r\n    requestedIdentifier\r\n    MIC\r\n    LocalCode\r\n    ISIN\r\n    Currency\r\n    PriceDate\r\n    Open\r\n    High\r\n    Low\r\n    Close\r\n    Mid\r\n    Ask\r\n    Last\r\n    Bid\r\n    Bidsize\r\n    Asksize\r\n    TradedVolume\r\n    SecID\r\n    MktCloseDate\r\n    VolFlag\r\n    IssuerName\r\n    SectyCD\r\n    SecurityTypeDescription\r\n    SEDOL\r\n    CUSIP\r\n    PrimaryExchgCD\r\n    ExchgCD\r\n    TotalTrades\r\n    CloseType\r\n  }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined MultiAsset Ref",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData( identifiers: [\r\n      \"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\",\r\n    \"92204A207\", \"92204A405\", \"92204A504\", \"92204A603\", \"92204A801\", \r\n      \"92204A884\", \"834610AZ0\", \"836261BG1\", \"838158CS0\", \"838779BX3\",\r\n\t\t\"838868HV2\", \"840627AK9\"\r\n  ],\r\n\r\n ) {\r\n  \r\n  equityDescriptions {\r\n        requestedIdentifier\r\n        CUSIP\r\n        ISIN\r\n        SEDOL\r\n        LocalCode\r\n        PVCurrency\r\n        DividendRate\r\n        ExDate\r\n        RecordDate\r\n        DeclareDate\r\n        PayDate\r\n        IndicatedAnnualDividend\r\n        DividendType\r\n        DividendFrequency\r\n        EarningsPerShare\r\n        Section13fSecurity\r\n        OptionsIndicator\r\n        EquityCUSIPRelatedtoOption\r\n        Action\r\n        RunDate\r\n        QtrandYearofRun\r\n  }\r\n   debtDesciptions {\r\n       requestedIdentifier\r\n        CUSIP\r\n        ISIN\r\n        SEDOL\r\n        IssueCurrency\r\n        Classification\r\n        ClassificationSubType\r\n        IssueType\r\n        IssueSubType\r\n        PaymentCategory\r\n        PaymentCategorySubType\r\n        CurrentDayCountConvention\r\n        CouponType\r\n        CouponRate\r\n        startDate\r\n        SettleDate\r\n        PaymentDelayDays\r\n        PoolNumber\r\n  }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PreDefined Beta MultiAsset Ref",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n  universalData (\r\n    identifiers: [\"Y27183121\",\"G51502105\", \"G37585109\", \"686330101\",\r\n    \"92204A207\", \"92204A405\", \"92204A504\", \"92204A603\", \"92204A801\", \r\n      \"92204A884\", \"834610AZ0\", \"836261BG1\", \"838158CS0\", \"838779BX3\",\r\n\t\t\"838868HV2\", \"840627AK9\"\r\n    ],\r\n  ){\r\n    multiAssetRefData {\r\n        requestedIdentifier\r\n        CUSIP\r\n        ISIN\r\n        SEDOL\r\n        LocalCode\r\n        Currency\r\n        DividendRate\r\n        ExDate\r\n        RecordDate\r\n        DeclareDate\r\n        PayDate\r\n        IndicatedAnnualDividend\r\n        DividendType\r\n        DividendFrequency\r\n        EarningsPerShare\r\n        SharesOutstanding\r\n        Section13fSecurity\r\n        OptionsIndicator\r\n        EquityCUSIPRelatedtoOption\r\n        Action\r\n        RunDate\r\n        QtrandYearofRun\r\n        Classification\r\n        ClassificationSubType\r\n        IssueType\r\n        IssueSubType\r\n        PaymentCategory\r\n        PaymentCategorySubType\r\n        CurrentDayCountConvention\r\n        CouponType\r\n        CouponRate\r\n        startDate\r\n        SettleDate\r\n        PaymentDelayDays\r\n        PoolNumber\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lookup QM dev (QMedia)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "userid",
+						"value": "\"manish\"",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "services",
+						"value": "513",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "jobname",
+						"value": "price_Dividend-corp.quood+file",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\r\n    universalData(identifiers: [\"265458612\"]) {\r\n        fundData {\r\n            requestedIdentifier\r\n            fundamental {\r\n                LocalCode\r\n                SourceCode\r\n                SecurityCode\r\n                inceptiondate\r\n                ISIN\r\n                CUSIP\r\n                SEDOL\r\n                longname\r\n                shortname\r\n                shareclasstype\r\n                fundfamilyname\r\n                currency\r\n                companyname\r\n                email\r\n                phone\r\n                secondfundbenchmarkname\r\n                primaryfundbenchmarkname\r\n                prospobjid\r\n                prospobjname\r\n                prospectusobjective\r\n                shareclassannualreportdate\r\n                netexpenseratio\r\n                grossexpenseratio\r\n                TER\r\n                transactionfee\r\n                managementfeepercent\r\n                otherfee\r\n                minimuminitialinvestment\r\n                closedToAllInvestors\r\n                closedToAllInvestorsDate\r\n                closedToNewInvestorsDate\r\n                opentoallinvestorsretail\r\n                opentoallinvestorsinstitutiona\r\n                moneymarketinstitutionalretail\r\n                moneymarketfundcategory\r\n                investmentstyle\r\n                glcatid\r\n                glcatname\r\n                assetclassexp\r\n                dividendcurrency\r\n                qmfundrating\r\n                trailingdivyield12mo\r\n                dividendfrequency\r\n                dividendpaydate\r\n                dividendamount\r\n                totalassets\r\n                netassets\r\n                netassetsdate\r\n                debttocapital\r\n                debttoequity\r\n                marketcapital\r\n                netmargin\r\n                numberofbondholdingnet\r\n                numberofstockholdingnet\r\n                pricetobook\r\n                pricetocashflow\r\n                pricetoearnings\r\n                pricetorevenue\r\n                returnonassets\r\n                returnonequity\r\n                totalnumberholdings\r\n                avgcoupon\r\n                avgcreditquality\r\n                avgduration\r\n                avgmaturity\r\n                avgprice\r\n                yieldtomaturity\r\n            }\r\n            performance{\r\n                LocalCode\r\n                SourceCode\r\n                SecurityCode\r\n                ISIN\r\n                CUSIP\r\n                SEDOL\r\n                annretnav\r\n                annretnavcatsize\r\n                annretnavytd\r\n                period\r\n            }\r\n            managerInfo {\r\n                LocalCode\r\n                SourceCode\r\n                SecurityCode\r\n                ISIN\r\n                CUSIP\r\n                SEDOL\r\n                name\r\n                bio\r\n                startdate\r\n            }\r\n        allocations {\r\n            assetAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            countryAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            marketCapitalAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            maturityAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            ratingAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            regionalAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n            sectorAllocation {\r\n                AssetName\r\n                AssetPercentage\r\n            }\r\n        }\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{GQL-domain}}/message",
+					"host": [
+						"{{GQL-domain}}"
+					],
+					"path": [
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-template-getlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{template-domain}}/getList",
+					"protocol": "https",
+					"host": [
+						"{{template-domain}}"
+					],
+					"path": [
+						"getList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-template-getDetail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{template-domain}}/getDetail?template=TranchHistoryWithoutFactor",
+					"protocol": "https",
+					"host": [
+						"{{template-domain}}"
+					],
+					"path": [
+						"getDetail"
+					],
+					"query": [
+						{
+							"key": "template",
+							"value": "TranchHistoryWithoutFactor"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-template-delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{template-domain}}/deleteTemplate?template=onlyforDatadog2",
+					"protocol": "https",
+					"host": [
+						"{{template-domain}}"
+					],
+					"path": [
+						"deleteTemplate"
+					],
+					"query": [
+						{
+							"key": "template",
+							"value": "onlyforDatadog2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-template-post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"template\": \"onlyforDatadog2\",\r\n    \"content\": {\r\n        \"priceData\": [\r\n            \"requestedIdentifier\",\r\n            \"MIC\",\r\n            \"LocalCode\",\r\n            \"ISIN\",\r\n            \"Currency\",\r\n            \"PriceDate\",\r\n            \"Open\",\r\n            \"High\",\r\n            \"Low\",\r\n            \"Close\",\r\n            \"Mid\",\r\n            \"Ask\",\r\n            \"Last\",\r\n            \"Bid\",\r\n            \"Bidsize\",\r\n            \"Asksize\",\r\n            \"TradedVolume\",\r\n            \"SecID\",\r\n            \"MktCloseDate\",\r\n            \"VolFlag\",\r\n            \"IssuerName\",\r\n            \"SectyCD\",\r\n            \"SecurityTypeDescription\",\r\n            \"SEDOL\",\r\n            \"CUSIP\",\r\n            \"PrimaryExchgCD\",\r\n            \"ExchgCD\",\r\n            \"TradedValue\",\r\n            \"TotalTrades\",\r\n            \"CloseType\",\r\n            \"YieldOfMaturity\",\r\n            \"Type\",\r\n            \"ProductType\",\r\n            \"TypeCode\",\r\n            \"BondMnemonic\",\r\n            \"CouponRate\",\r\n            \"BondType\",\r\n            \"CloseDate\"\r\n        ],\r\n        \"dividends\": [],\r\n        \"equityDescriptions\": [],\r\n        \"corporateActions\": [],\r\n        \"debtDesciptions\": []\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{template-domain}}/postObject",
+					"protocol": "https",
+					"host": [
+						"{{template-domain}}"
+					],
+					"path": [
+						"postObject"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "{{domain}}",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "companyName",
+			"value": "quodddst",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJSUzUxMiJ9.eyJjbGllbnRfdXNlcl9pZCI6MzA1MiwiZXhwIjoxNjE0MDc0MDA3LCJpYXQiOjE2MTM5ODc2MDd9.G1O6bOo8cFg1sFbG7HtXfqQ-U_sIwyj77-1wCshgylx0-7tlTdFlN20iQmC0CpFGxtR9k_oJlQY3LtH7HF_VKmyApOiq8wPP0cvB3qQDhAN5HiW6WqvS489Bw_I-IXcdQSh8TTXd3EmHm6KM5FtRBp0Lr5itpCgae2LhjQDw3CJdZCtugDLDB_CQXJAUVN_okIzhzrXw2fGTRMqdyBdPUlz7U9BEuHUOaOHWRx5BA3A74lGlZENtH8HDNyKcfFOriiIHuHDcGf3gE2__nzVK6PA_5SHQfdvtReV9aB57o21mhM5YfQ_lucWVW97DZ68vkISFWuEBTpMrgy-tlNTOvA",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "templateName",
+			"value": ""
+		}
+	]
+}
